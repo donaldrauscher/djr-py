@@ -6,7 +6,7 @@ steps:
     env: ['VERSION=${_TAG_NAME}']
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: gsutil
-    args: ["-m", "cp", "-r", "dist", "gs://${_SUB_DOMAIN}.donaldrauscher.com/djr-py"]
+    args: ["-m", "cp", "-r", "dist/*", "gs://${_SUB_DOMAIN}.donaldrauscher.com/djr-py"]
 substitutions:
   _BRANCH_NAME: master
   _TAG_NAME: '0.1'
