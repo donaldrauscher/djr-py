@@ -1,13 +1,13 @@
 steps:
   - name: gcr.io/cloud-builders/git
-    args: ['clone', '-b', '${BRANCH_NAME}', '--single-branch', '--depth', '1', 'https://github.com/donaldrauscher/djr-py.git']
+    args: ['clone', '-b', '${_BRANCH_NAME}', '--single-branch', '--depth', '1', 'https://github.com/donaldrauscher/djr-py.git']
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     args: ["sdist", "bdist_wheel"]
-    env: ['VERSION=${TAG_NAME}']
+    env: ['VERSION=${_TAG_NAME}']
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: gsutil
-    args: ["-m", "cp", "-r", "dist", "gs://${SUB_DOMAIN}.donaldrauscher.com/djr-py"]
+    args: ["-m", "cp", "-r", "dist", "gs://${_SUB_DOMAIN}.donaldrauscher.com/djr-py"]
 substitutions:
-  BRANCH_NAME: master
-  TAG_NAME: 0.1
-  SUB_DOMAIN: pypi
+  _BRANCH_NAME: master
+  _TAG_NAME: '0.1'
+  _SUB_DOMAIN: pypi
