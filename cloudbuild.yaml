@@ -2,10 +2,16 @@ steps:
   - name: gcr.io/cloud-builders/git
     args: ['clone', '-b', '${_BRANCH_NAME}', '--single-branch', '--depth', '1', 'https://github.com/donaldrauscher/djr-py.git']
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
-    args: ["sdist"]
+    args: ['sdist']
     env: ['VERSION=${_TAG_NAME}']
   - name: gcr.io/cloud-builders/curl
-    args: ["-F", "package=@dist/djr-py-${_TAG_NAME}.tar.gz", "https://${_FURY_TOKEN}@push.fury.io/donaldrauscher/"]
+    entrypoint: 'bash'
+    args: ['-c', 'curl -f -F package=@dist/djr-py-${_TAG_NAME}.tar.gz https://$$FURY_TOKEN@push.fury.io/donaldrauscher/']
+    secretEnv: ['FURY_TOKEN']
 substitutions:
   _BRANCH_NAME: master
-  _TAG_NAME: '0.0.2'
+  _TAG_NAME: '0.0.4'
+secrets:
+- kmsKeyName: projects/blog-180218/locations/global/keyRings/djr/cryptoKeys/fury
+  secretEnv:
+    FURY_TOKEN: CiQAUrbjD9VjSHPnmMvLV0Jv+duPGyuaIgS0C2u1LmcVRGHY/BwSPQCP7mNtRVGShanmgHUx5RHoohNDGWX4FnscAmbMBVplms0uOQfHLmLy/wkfaxAHYoK2pX/LKDxDIwQzAz0=
