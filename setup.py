@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 version = os.getenv('VERSION', '0.0.1')
-pip install djr-py==0.0.1 --extra-index-url https://@pypi.fury.io/donaldrauscher/
+
 setup(
     name='djr-py',
     packages=find_packages(),
