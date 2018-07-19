@@ -1,19 +1,13 @@
 # djr-py
 My personal Python package
 
-Use Google Cloud Container Builder to build package on tagged commits and push to hosted GCS bucket (http://pypi.donaldrauscher.com/djr-py).
+Use Google Cloud Container Builder to build package on tagged commits and upload to Gemfury.
 
-Add the following snippet to `~/.pypirc`:
-```yaml
-[distutils]
-index-servers =
-  ...
-  me
+TODO: figure out how to get Gemfury token available in build requests
 
-[me]
-repository: http://pypi.donaldrauscher.com
-username:
-password:
+Install package:
+```
+pip install djr-py --extra-index-url https://${FURY_TOKEN}@pypi.fury.io/donaldrauscher/
 ```
 
 Build cloud builder image:
