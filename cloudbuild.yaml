@@ -6,7 +6,6 @@ steps:
     args: ['-c', 'pip3 install -e . && python3 -m pytest -s']
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     args: ['setup.py', 'sdist']
-    env: ['VERSION=${TAG_NAME}']
   - name: gcr.io/cloud-builders/curl
     entrypoint: 'bash'
     args: ['-c', 'curl -f -F package=@dist/djr-py-${TAG_NAME}.tar.gz https://$${FURY_TOKEN}@push.fury.io/donaldrauscher/']
