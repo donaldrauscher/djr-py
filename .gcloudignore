@@ -1,6 +1,9 @@
-dist/**
-build/**
-venv/**
-.idea/**
 .git/**
-djr-py/**
+*.pyc
+**/__pycache__/**
+.idea/**
+build/**
+dist/**
+venv/**
+*.egg-info/**
+.pytest_cache/**

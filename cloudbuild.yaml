@@ -2,7 +2,10 @@ steps:
   - name: gcr.io/cloud-builders/git
     args: ['clone', '-b', '${TAG_NAME}', '--single-branch', '--depth', '1', 'https://github.com/donaldrauscher/djr-py.git']
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
-    args: ['sdist']
+    entrypoint: 'bash'
+    args: ['-c', 'pip3 install -e . && python3 -m pytest']
+  - name: gcr.io/${PROJECT_ID}/python-packager:latest
+    args: ['setup.py', 'sdist']
     env: ['VERSION=${TAG_NAME}']
   - name: gcr.io/cloud-builders/curl
     entrypoint: 'bash'

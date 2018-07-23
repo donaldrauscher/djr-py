@@ -8,4 +8,4 @@ RUN apt-get update \
 
 RUN pip3 install --no-cache-dir --upgrade -r requirements.txt
 
-ENTRYPOINT ["python3", "setup.py"]
+ENTRYPOINT ["python3"]
