@@ -11,11 +11,11 @@ setup(
     author_email='donald.rauscher@gmail.com',
     license='MIT',
     install_requires=[
-        'numpy>=1.14.2',
-        'pandas>=0.22.0',
-        'scikit-learn>=0.19.1',
-        'scipy>=1.1.0',
-        'PyYAML>=3.12',
-        'dill>=0.2.7.1'
+        'numpy>=1.14.0,<1.15.0',    # per scikit-learn
+        'pandas>=0.23.3',           # most recent
+        'scikit-learn>=0.19.1',     # most recent
+        'scipy>=1.1.0',             # per scikit-learn
+        'PyYAML>=3.13',             # most recent
+        'dill>=0.2.8.2'             # most recent
     ]
 )
