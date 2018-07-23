@@ -16,24 +16,34 @@ def add_prefix(prefix, x, split='__'):
     return ['{}{}{}'.format(prefix, split, i) for i in x]
 
 
+def safe_partition(x, split='__'):
+    x2 = x.partition(split)
+    if len(x2[2]) > 0:
+        return x2[2]
+    return x
+
+
 def remove_prefix(x, split='__'):
     if isinstance(x, dict):
-        return {k.partition(split)[2]: v for k, v in x.items()}
+        return {safe_partition(k, split): v for k, v in x.items()}
     return [i.partition(split)[2] for i in x]
 
 
-def flatten_dict(x):
+def flatten_dict(x, split='__'):
     temp = {}
     for k, v in x.items():
         if isinstance(v, dict):
-            temp.update(add_prefix(k, flatten_dict(v.copy())))
-        temp.update({k: v})
+            temp.update(add_prefix(k, flatten_dict(v.copy()), split=split))
+        else:
+            temp.update({k: v})
     return temp
 
 
 # return first non-null value in array
 # pylint: disable=invalid-unary-operand-type
 def first_non_null(x):
+    if x.ndim > 1:
+        raise ValueError
     if np.sum(~pd.isnull(x)) > 0:
         return x[np.min(np.where(~pd.isnull(x)))]
     return np.nan
