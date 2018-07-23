@@ -4,12 +4,15 @@ steps:
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     entrypoint: 'bash'
     args: ['-c', 'pip3 install -e . && python3 -m pytest -s']
+    dir: '/workspace/djr-py'
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     args: ['setup.py', 'sdist']
+    dir: '/workspace/djr-py'
   - name: gcr.io/cloud-builders/curl
     entrypoint: 'bash'
     args: ['-c', 'curl -f -F package=@dist/djr-py-${TAG_NAME}.tar.gz https://$${FURY_TOKEN}@push.fury.io/donaldrauscher/']
     secretEnv: ['FURY_TOKEN']
+    dir: '/workspace/djr-py'
 secrets:
 - kmsKeyName: projects/blog-180218/locations/global/keyRings/djr/cryptoKeys/fury
   secretEnv:
