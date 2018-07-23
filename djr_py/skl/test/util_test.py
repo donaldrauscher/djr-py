@@ -1,8 +1,6 @@
 import pytest
-
 import numpy as np
 from scipy import sparse
-
 from ..util import element_wise, safe_divide, first_non_null, flatten_dict, remove_prefix
 
 
