@@ -18,7 +18,7 @@ def add_prefix(prefix, x, split='__'):
 
 def safe_partition(x, split='__'):
     x2 = x.partition(split)
-    if len(x2[2]) > 0:
+    if x2[2] != '':
         return x2[2]
     return x
 

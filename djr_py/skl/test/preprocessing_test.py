@@ -12,4 +12,4 @@ twos = np.repeat(2, 9).reshape(3, 3)
 
 
 def test_iid_one():
-    np.array_equal(iid.fit_transform(x), twos)
+    assert np.array_equal(iid.fit_transform(x), twos)

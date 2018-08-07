@@ -10,7 +10,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from .select import SelectDocFreq
 from .poly import InteractionTerm
 from .base import Pipeline
-from .util import splitter, flatten
+from ..util import splitter, flatten
 
 
 # functions for looking up key in a grouping

@@ -4,7 +4,7 @@ from scipy import sparse
 from sklearn.base import BaseEstimator, TransformerMixin
 
 from .base import OneDimensionalTransformer
-from .util import element_wise
+from ..util import element_wise
 
 
 # returns 0 if x < 0

@@ -10,7 +10,7 @@ from sklearn.linear_model import LogisticRegression, LinearRegression
 # pylint: disable=no-name-in-module
 from scipy.special import logit
 
-from .util import add_prefix
+from ..util import add_prefix
 
 
 # chop off the first column

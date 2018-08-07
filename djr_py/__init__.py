@@ -1,6 +1,7 @@
 from sklearn.externals.joblib import register_parallel_backend
 
-from .skl.util import add_prefix, remove_prefix, flatten_dict, first_non_null, safe_divide, element_wise, splitter
+from .util import add_prefix, remove_prefix, flatten_dict, first_non_null, safe_divide, element_wise, splitter
+
 from .skl.stack import StackingClassifier, StackingRegressor
 from .skl.preprocessing import SelectKBest, FeatureUnionIID
 from .skl.select import SelectDocFreq
