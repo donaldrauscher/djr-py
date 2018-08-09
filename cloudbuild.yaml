@@ -1,6 +1,8 @@
 steps:
   - name: gcr.io/cloud-builders/git
     args: ['clone', '-b', '${TAG_NAME}', '--single-branch', '--depth', '1', 'https://github.com/donaldrauscher/djr-py.git']
+#  - name: gcr.io/cloud-builders/git
+#    args: ['clone', 'https://github.com/donaldrauscher/gcs-pypi.git']
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     entrypoint: 'bash'
     args: ['-c', 'pip3 install -e . && python3 -m pytest -s']
@@ -8,12 +10,9 @@ steps:
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     args: ['setup.py', 'sdist']
     dir: '/workspace/djr-py'
-  - name: gcr.io/cloud-builders/curl
-    entrypoint: 'bash'
-    args: ['-c', 'curl -f -F package=@dist/djr-py-${TAG_NAME}.tar.gz https://$${FURY_TOKEN}@push.fury.io/donaldrauscher/']
-    secretEnv: ['FURY_TOKEN']
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['cp', 'dist/djr-py-${TAG_NAME}.tar.gz', 'gs://pypi.donaldrauscher.com']
     dir: '/workspace/djr-py'
-secrets:
-- kmsKeyName: projects/blog-180218/locations/global/keyRings/djr/cryptoKeys/fury
-  secretEnv:
-    FURY_TOKEN: CiQAUrbjD9VjSHPnmMvLV0Jv+duPGyuaIgS0C2u1LmcVRGHY/BwSPQCP7mNtRVGShanmgHUx5RHoohNDGWX4FnscAmbMBVplms0uOQfHLmLy/wkfaxAHYoK2pX/LKDxDIwQzAz0=
+#  - name: gcr.io/cloud-builders/gcloud
+#    args: ['builds', 'submit', '--config', 'cloudbuild.yaml', '--no-source', '--async']
+#    dir: '/workspace/djr-pypi'

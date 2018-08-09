@@ -1,19 +1,26 @@
 # djr-py
 My personal Python package
 
-Use Google Cloud Container Builder to build package and upload to Gemfury.  Trigger specifically for tagged commits.
+Tagged commits trigger Google Cloud Build to build package and upload to GCS bucket.  Last step of pipeline triggers *another* Google Cloud Build job (see [here](https://github.com/donaldrauscher/gcs-pypi)) that converts GCS bucket into a simple PyPI static site server using [`dumb-pypi`](https://github.com/chriskuehl/dumb-pypi).
 
 Install package:
 ```
-pip install djr-py --extra-index-url https://${FURY_TOKEN}@pypi.fury.io/donaldrauscher/
+pip install djr-py==X.X.X --extra-index-url http://pypi.donaldrauscher.com/
 ```
 
-NOTE: Need to create a KMS key/keyring, give Google Container Builder access to it, and use that key to encrypt your Fury token.  You can find additional instructions on how to do this [here](https://cloud.google.com/container-builder/docs/securing-builds/use-encrypted-secrets-credentials).
+Or Add the `--extra-index-url` option at the top of your `requirements.txt`:
 ```
-echo -n ${FURY_TOKEN} | gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=djr --key=fury | base64
+--extra-index-url http://pypi.donaldrauscher.com/
+djr-py==X.X.X
+...
 ```
 
-Build cloud builder image:
+To trigger build manually:
+```
+gcloud container builds submit --config cloudbuild.yaml --no-source --substitutions=TAG_NAME=X.X.X
+```
+
+NOTE: Build requires `python-packager` custom step.  Build with the following command:
 ```
 gcloud container builds submit --gcs-source-staging-dir=gs://djr-data/cloudbuild --config cloudbuild_step.yaml .
 ```
