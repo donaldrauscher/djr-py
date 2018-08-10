@@ -5,22 +5,25 @@ Tagged commits trigger Google Cloud Build to build package and upload to GCS buc
 
 Install package:
 ```
-pip install djr-py==X.X.X --extra-index-url http://pypi.donaldrauscher.com/
+pip install djr-py==X.X.X --extra-index-url http://pypi.donaldrauscher.com/simple --trusted-host pypi.donaldrauscher.com
 ```
+
+NOTE: Need `--trusted-host` since not using HTTPS (and [can only use HTTP](https://cloud.google.com/storage/docs/troubleshooting#https) when hosting a static website)
 
 Or Add the `--extra-index-url` option at the top of your `requirements.txt`:
 ```
---extra-index-url http://pypi.donaldrauscher.com/
+--extra-index-url http://pypi.donaldrauscher.com/simple
+--trusted-host pypi.donaldrauscher.com
 djr-py==X.X.X
 ...
 ```
 
 To trigger build manually:
 ```
-gcloud container builds submit --config cloudbuild.yaml --no-source --substitutions=TAG_NAME=X.X.X
+gcloud builds submit --config cloudbuild.yaml --no-source --substitutions=TAG_NAME=X.X.X
 ```
 
 NOTE: Build requires `python-packager` custom step.  Build with the following command:
 ```
-gcloud container builds submit --gcs-source-staging-dir=gs://djr-data/cloudbuild --config cloudbuild_step.yaml .
+gcloud builds submit --gcs-source-staging-dir=gs://djr-data/cloudbuild --config cloudbuild_step.yaml .
 ```
