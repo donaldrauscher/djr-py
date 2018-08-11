@@ -1,20 +1,37 @@
 steps:
   - name: gcr.io/cloud-builders/git
-    args: ['clone', '-b', '${TAG_NAME}', '--single-branch', '--depth', '1', 'https://github.com/donaldrauscher/djr-py.git']
+    args: ['clone', '-b', '${TAG_NAME}', '--single-branch', '--depth', '1', 'https://github.com/${_GITHUB_USER}/${_PACKAGE}.git']
+#  - name: gcr.io/cloud-builders/gcloud
+#    args: ['source', 'repos', 'clone', '${_PACKAGE}', '--project=${PROJECT_ID}']
+#  - name: gcr.io/cloud-builders/git
+#    args: ['checkout', '${TAG_NAME}']
+#    dir: '/workspace/${_PACKAGE}'
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     entrypoint: 'bash'
     args: ['-c', 'pip3 install -e . && python3 -m pytest -s']
-    dir: '/workspace/djr-py'
+    dir: '/workspace/${_PACKAGE}'
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     args: ['setup.py', 'sdist']
-    dir: '/workspace/djr-py'
+    dir: '/workspace/${_PACKAGE}'
   - name: gcr.io/cloud-builders/gsutil
-    args: ['cp', 'dist/djr-py-${TAG_NAME}.tar.gz', 'gs://${_BUCKET}/raw/']
-    dir: '/workspace/djr-py'
+    args: ['cp', 'dist/${_PACKAGE}-${TAG_NAME}.tar.gz', 'gs://${_BUCKET}/raw/']
+    dir: '/workspace/${_PACKAGE}'
   - name: gcr.io/cloud-builders/git
     args: ['clone', 'https://github.com/donaldrauscher/gcs-pypi.git']
   - name: gcr.io/cloud-builders/gcloud
     args: ['builds', 'submit', '--config', 'cloudbuild.yaml', '--no-source', '--async', '--substitutions', '_BUCKET=${_BUCKET}']
     dir: '/workspace/gcs-pypi'
+#  - name: gcr.io/cloud-builders/curl
+#    entrypoint: 'bash'
+#    args: ['-c', 'curl -f -F package=@dist/${_PACKAGE}-${TAG_NAME}.tar.gz https://$${FURY_TOKEN}@push.fury.io/${_FURY_USER}/']
+#    secretEnv: ['FURY_TOKEN']
+#    dir: '/workspace/${_PACKAGE}'
+#secrets:
+#- kmsKeyName: projects/blog-180218/locations/global/keyRings/djr/cryptoKeys/fury
+#  secretEnv:
+#    FURY_TOKEN: CiQAUrbjD9VjSHPnmMvLV0Jv+duPGyuaIgS0C2u1LmcVRGHY/BwSPQCP7mNtRVGShanmgHUx5RHoohNDGWX4FnscAmbMBVplms0uOQfHLmLy/wkfaxAHYoK2pX/LKDxDIwQzAz0=
 substitutions:
+  _PACKAGE: djr-py
   _BUCKET: pypi.donaldrauscher.com
+#  _FURY_USER: donaldrauscher
+  _GITHUB_USER: donaldrauscher
