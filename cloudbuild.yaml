@@ -8,7 +8,7 @@ steps:
 #    dir: '/workspace/${_PACKAGE}'
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     entrypoint: 'bash'
-    args: ['-c', 'pip3 install -e . && python3 -m pytest -s']
+    args: ['-c', 'pip3 install -e .[tf] && python3 -m pytest -s']
     dir: '/workspace/${_PACKAGE}'
   - name: gcr.io/${PROJECT_ID}/python-packager:latest
     args: ['setup.py', 'sdist']

@@ -16,7 +16,10 @@ setup(
         'pandas>=0.23.3',           # most recent
         'scikit-learn<0.20.0',      # most recent
         'PyYAML>=3.13',             # most recent
-        'dill>=0.2.8.2',            # most recent
-        'tensorflow>=1.11.0'        # most recent
-    ]
+        'dill>=0.2.8.2'             # most recent
+    ],
+    extras_requires={
+        'tf': ['tensorflow>=1.11.0'],
+        'tf-gpu': ['tensorflow-gpu>=1.11.0']
+    }
 )
