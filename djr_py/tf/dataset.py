@@ -16,11 +16,7 @@ def make_tf_records(df, out):
                 elif field_types[k] == 'float64':
                     features[k] = tf.train.Feature(float_list=tf.train.FloatList(value=[v]))
                 else:
-                    try:
-                        v = str(v).encode('utf-8')
-                    except:
-                        v = v.encode('utf-8')
-                    features[k] = tf.train.Feature(bytes_list=tf.train.BytesList(value=[v]))
+                    features[k] = tf.train.Feature(bytes_list=tf.train.BytesList(value=[str(v).encode('utf-8')]))
 
             example = tf.train.Example(features=tf.train.Features(feature=features))
             writer.write(example.SerializeToString())
