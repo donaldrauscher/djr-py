@@ -18,7 +18,7 @@ setup(
         'PyYAML>=3.13',             # most recent
         'dill>=0.2.8.2'             # most recent
     ],
-    extras_requires={
+    extras_require={
         'tf': ['tensorflow>=1.11.0'],
         'tf-gpu': ['tensorflow-gpu>=1.11.0']
     }
