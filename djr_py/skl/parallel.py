@@ -6,6 +6,7 @@ from io import BytesIO
 
 from dill import Pickler
 
+from sklearn.externals.joblib import register_parallel_backend
 from sklearn.externals.joblib.pool import CustomizablePicklingQueue, MemmapingPool
 from sklearn.externals.joblib._parallel_backends import MultiprocessingBackend, FallbackToBackend, SequentialBackend
 
@@ -99,3 +100,8 @@ class MultiprocessingBackendDill(MultiprocessingBackend):
         self.parallel = parallel
 
         return n_jobs
+
+
+# set as default backend
+def use_dill_mp_backend():
+    register_parallel_backend('multiprocessing', MultiprocessingBackendDill, make_default=True)

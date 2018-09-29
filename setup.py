@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='djr-py',
     packages=find_packages(),
-    version='0.0.5',
+    version='0.0.6',
     include_package_data=True,
     description='Python package for all my personal stuff!',
     url='https://github.com/donaldrauscher/djr-py',
