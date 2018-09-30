@@ -13,13 +13,13 @@ setup(
     install_requires=[
         'numpy>=1.14.0',                    # per scikit-learn
         'scipy>=1.1.0',                     # per scikit-learn
-        'pandas>=0.23.3',                   # most recent
+        'pandas>=0.23.1',                   # most recent
         'scikit-learn>=0.19.0,<0.20.0',     # most recent
         'PyYAML>=3.13',                     # most recent
         'dill>=0.2.8.2'                     # most recent
     ],
     extras_require={
-        'tf': ['tensorflow>=1.11.0'],
-        'tf-gpu': ['tensorflow-gpu>=1.11.0']
+        'tf': ['tensorflow>=1.9.0'],
+        'tf-gpu': ['tensorflow-gpu>=1.9.0']
     }
 )
